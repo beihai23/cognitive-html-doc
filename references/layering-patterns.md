@@ -72,7 +72,7 @@
 
 | 等级 | 样式 | 适用 |
 |---|---|---|
-| L1 极突出 | `text-3xl+` + 状态色 + 加粗 + 卡片 | KPI 北极星 |
+| L1 极突出 | `text-3xl+` + 状态色 + 加粗 + 卡片 | 北极星指标 / SLO 阈值 |
 | L2 突出 | `text-lg` + 加粗 + 状态色边框 | 核心论点、关键约束 |
 | L3 主线 | 常规文字 + 卡片 | 章节正文 |
 | L4 次要 | `text-sm` + `text-ink-700` | 说明文字 |
@@ -80,7 +80,7 @@
 
 ```html
 <!-- L1: 北极星 -->
-<div class="text-5xl font-bold text-info-text kpi-number">≥ 25%</div>
+<div class="text-5xl font-bold text-info-text display-num">≥ 25%</div>
 
 <!-- L2: 核心论点 -->
 <div class="text-base font-bold text-ink-900">关键约束</div>

@@ -37,14 +37,14 @@
 </section>
 ```
 
-## KPI 大字号卡片
+## 关键数字卡片
 
 适用：北极星指标、规模、占比、目标值
 
 ```html
 <div class="card border-2 border-info-border p-6 text-center">
   <div class="text-xs uppercase tracking-wider text-info-text font-semibold">对外指标</div>
-  <div class="text-5xl font-bold text-info-text kpi-number my-3">≥ 25%</div>
+  <div class="text-5xl font-bold text-info-text display-num my-3">≥ 25%</div>
   <div class="text-base font-semibold">W4 留存率</div>
   <div class="text-xs text-ink-500 mt-1">用户用得起来</div>
 </div>
@@ -52,11 +52,11 @@
 
 **关键**：
 - `text-5xl` 大字号
-- `kpi-number` 等宽数字（`tabular-nums`）
+- `display-num` 等宽数字（`tabular-nums`）
 - `border-2` 加粗边框
 - 状态色三态：`text-{color}` + `border-{color}-border` + 浅色背景
 
-## 关键约束 KPI 卡片（前置突出）
+## 关键约束 关键数字卡片（前置突出）
 
 适用：把"必须接受的现实约束"提到章节开头，配大字号数字
 
@@ -74,7 +74,7 @@
       <div class="text-xs text-ink-700 mt-1">说明文字</div>
     </div>
     <div class="text-center border-l border-warning-border pl-5">
-      <div class="text-3xl font-bold text-warning-text kpi-number leading-none">5/8</div>
+      <div class="text-3xl font-bold text-warning-text display-num leading-none">5/8</div>
       <div class="text-[10px] text-ink-500 mt-1">能力受限</div>
     </div>
   </div>
@@ -243,7 +243,7 @@
         <div class="font-bold text-success-text text-sm">名称</div>
       </div>
       <div class="text-right">
-        <div class="text-2xl font-bold text-success-text kpi-number leading-none">数字</div>
+        <div class="text-2xl font-bold text-success-text display-num leading-none">数字</div>
         <div class="text-[10px] text-ink-500 mt-0.5">说明</div>
       </div>
     </div>
@@ -297,15 +297,15 @@
 ```html
 <div class="grid grid-cols-3 gap-3 mb-4">
   <div class="card border-info-border bg-info-bg/20 p-4 text-center">
-    <div class="text-3xl font-bold text-info-text kpi-number">7d</div>
+    <div class="text-3xl font-bold text-info-text display-num">7d</div>
     <div class="text-xs text-ink-700 mt-1">提前提醒</div>
   </div>
   <div class="card border-warning-border bg-warning-bg/20 p-4 text-center">
-    <div class="text-3xl font-bold text-warning-text kpi-number">24h</div>
+    <div class="text-3xl font-bold text-warning-text display-num">24h</div>
     <div class="text-xs text-ink-700 mt-1">关键钩子</div>
   </div>
   <div class="card border-danger-border bg-danger-bg/20 p-4 text-center">
-    <div class="text-3xl font-bold text-danger-text kpi-number">当天</div>
+    <div class="text-3xl font-bold text-danger-text display-num">当天</div>
     <div class="text-xs text-ink-700 mt-1">最后机会</div>
   </div>
 </div>
