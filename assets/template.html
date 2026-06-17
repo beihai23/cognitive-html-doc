@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{DOC_TITLE}}</title>
+
+<!-- CDN 栈（按加载顺序） -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['-apple-system','BlinkMacSystemFont','Inter','Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','sans-serif'],
+        mono: ['JetBrains Mono','SF Mono','Monaco','Consolas','monospace']
+      },
+      colors: {
+        ink: { 900:'#1f2328', 700:'#59636e', 500:'#8c959f', 300:'#d0d7de' },
+        line: { DEFAULT:'#d0d7de', soft:'#e8ecf0' },
+        info:    { bg:'#ddf4ff', text:'#0969da', border:'#54aeff' },
+        success: { bg:'#e8f5ee', text:'#1a7f37', border:'#3fb950' },
+        warning: { bg:'#fff8c5', text:'#9a6700', border:'#d4a72c' },
+        danger:  { bg:'#ffebe9', text:'#cf222e', border:'#ff8182' }
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-size: 15px; line-height: 1.7; color: #1f2328; background: #ffffff; }
+  [x-cloak] { display: none !important; }
+
+  /* TOC 滚动高亮 */
+  .toc-link.active {
+    background: #ddf4ff;
+    color: #0969da;
+    border-left-color: #0969da;
+    font-weight: 500;
+  }
+
+  /* Mermaid 容器 */
+  .mermaid {
+    background: #fafbfc;
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid #e8ecf0;
+    min-height: 200px;
+    text-align: center;
+  }
+  .mermaid svg { max-width: 100%; height: auto; }
+
+  /* 卡片 */
+  .card {
+    background: white;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .card-hover:hover {
+    box-shadow: 0 4px 12px rgba(31,35,40,0.08);
+    transform: translateY(-1px);
+  }
+
+  /* Callout（左 4px 色条） */
+  .callout {
+    border-left-width: 4px;
+    border-left-style: solid;
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
+
+  /* 折叠 details 自定义图标 */
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .summary-icon-closed { display: none; }
+  details:not([open]) .summary-icon-open { display: none; }
+
+  /* KPI 等宽数字 */
+  .kpi-number {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  /* 表格 */
+  table.data-table tbody tr:nth-child(even) { background: rgba(140,149,159,0.04); }
+  table.data-table tbody tr:hover { background: #ddf4ff !important; }
+  table.data-table thead { position: sticky; top: 0; }
+
+  /* 章节锚点偏移 */
+  .section-anchor { scroll-margin-top: 80px; }
+  h1, h2, h3, h4 { scroll-margin-top: 80px; font-weight: 600; letter-spacing: -0.01em; color: #1f2328; }
+
+  /* 响应式 */
+  @media (max-width: 1024px) {
+    .doc-sidebar { display: none; }
+    .doc-main { margin-left: 0 !important; padding: 24px !important; }
+  }
+</style>
+</head>
+
+<body class="font-sans">
+
+<!-- 顶部 sticky nav -->
+<nav class="fixed top-0 left-0 right-0 h-12 bg-white/95 backdrop-blur border-b border-line z-40 flex items-center px-6 text-sm">
+  <div class="font-semibold text-ink-900">{{DOC_TITLE}}</div>
+  <div class="ml-auto flex items-center gap-4 text-xs text-ink-500">
+    <span>{{META}}</span>
+    <span class="badge bg-success-bg text-success border border-success-border">{{STATUS}}</span>
+  </div>
+</nav>
+
+<div class="flex pt-12">
+
+  <!-- 左侧 TOC sidebar -->
+  <aside class="doc-sidebar fixed top-12 left-0 w-[260px] h-[calc(100vh-48px)] overflow-y-auto bg-gray-50 border-r border-line p-5 z-30">
+    <div class="text-[11px] uppercase tracking-wider text-ink-500 font-semibold mb-3">导航</div>
+    <nav class="space-y-0.5 text-[13px]">
+      <!-- TOC 条目（按需复制） -->
+      <a href="#hero" class="toc-link block px-3 py-1.5 rounded text-ink-700 hover:bg-gray-200 border-l-2 border-transparent font-semibold">概览</a>
+      <a href="#sec-1" class="toc-link block px-3 py-1.5 rounded text-ink-700 hover:bg-gray-200 border-l-2 border-transparent font-semibold mt-3">1. 第一章</a>
+      <a href="#sec-2" class="toc-link block px-3 py-1.5 rounded text-ink-700 hover:bg-gray-200 border-l-2 border-transparent font-semibold mt-2">2. 第二章</a>
+      <!-- 更多 -->
+    </nav>
+
+    <!-- 侧栏底部：关键约束（可选） -->
+    <div class="mt-8 pt-5 border-t border-line">
+      <div class="text-[11px] uppercase tracking-wider text-ink-500 font-semibold mb-2">关键约束</div>
+      <div class="space-y-2 text-[11.5px] text-ink-700 leading-relaxed">
+        <div class="flex items-start gap-1.5">
+          <span class="text-danger-text font-bold">·</span>
+          <span>红线 1</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 主内容区 -->
+  <main class="doc-main ml-[260px] flex-1 max-w-[1100px] px-12 py-10 min-h-screen">
+
+    <!-- Hero 区 -->
+    <section id="hero" class="mb-16">
+      <div class="text-xs uppercase tracking-[0.15em] text-ink-500 mb-3 font-semibold">{{DOC_TYPE}}</div>
+      <h1 class="text-4xl font-semibold mb-3 tracking-tight leading-tight">{{TITLE}}</h1>
+      <p class="text-xl text-ink-700 mb-6 leading-relaxed">{{SUBTITLE}}</p>
+
+      <!-- Hero 4 维度卡片（按需调整数量） -->
+      <div class="grid grid-cols-4 gap-3 mb-8">
+        <div class="card card-hover p-4">
+          <div class="text-[11px] uppercase tracking-wider text-ink-500 font-semibold mb-1">维度 1</div>
+          <div class="text-sm font-semibold text-ink-900 leading-snug">{{VALUE_1}}</div>
+          <div class="text-xs text-ink-500 mt-2">{{HINT_1}}</div>
+        </div>
+        <!-- 其他卡片 -->
+      </div>
+
+      <!-- Hero 主架构图 -->
+      <div class="card p-6">
+        <div class="mermaid">
+graph TB
+    subgraph U["Layer 1"]
+        A["Node A"]
+        B["Node B"]
+    end
+    A --> B
+
+    classDef a fill:#e8f5ee,stroke:#1a7f37,color:#1a7f37,font-weight:bold
+    class A a
+        </div>
+      </div>
+    </section>
+
+    <!-- 章节 1 -->
+    <section id="sec-1" class="mb-16 section-anchor">
+      <h1 class="text-2xl mb-2">1. {{CHAPTER_1_TITLE}}</h1>
+      <p class="text-sm text-ink-500 mb-5">{{CHAPTER_1_SUBTITLE}}</p>
+
+      <!-- 内容按 visualization-patterns.md 选择 -->
+
+      <h2 class="text-lg mt-6 mb-3 pb-2 border-b border-line">1.1 子章节</h2>
+
+      <!-- Callout 示例 -->
+      <div class="callout bg-info-bg border-info-border p-4 rounded mb-4">
+        <div class="font-semibold text-info-text text-sm mb-1">📌 标题</div>
+        <p class="text-sm">内容</p>
+      </div>
+
+      <!-- 表格示例 -->
+      <div class="overflow-hidden border border-line rounded-lg mb-4">
+        <table class="w-full text-sm data-table bg-white">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-3 text-left font-semibold text-xs uppercase tracking-wider text-ink-700">列 1</th>
+              <th class="px-4 py-3 text-left font-semibold text-xs uppercase tracking-wider text-ink-700">列 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-line-soft">
+              <td class="px-4 py-2.5 font-medium">值 1</td>
+              <td class="px-4 py-2.5">值 2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 更多章节 -->
+
+  </main>
+</div>
+
+<!-- 脚本（按加载顺序） -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<script>
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'base',
+  themeVariables: {
+    primaryColor: '#ffffff',
+    primaryTextColor: '#1f2328',
+    primaryBorderColor: '#0969da',
+    lineColor: '#59636e',
+    secondaryColor: '#fafbfc',
+    tertiaryColor: '#ffffff',
+    background: '#fafbfc',
+    mainBkg: '#ffffff',
+    secondBkg: '#fafbfc',
+    fontSize: '14px',
+    fontFamily: '-apple-system, BlinkMacSystemFont, Inter, Segoe UI, PingFang SC, sans-serif'
+  },
+  flowchart: { curve: 'basis', htmlLabels: true, padding: 16 },
+  sequence: { showSequenceNumbers: false, boxMargin: 8, noteMargin: 8, messageMargin: 35 },
+  timeline: { padding: 16 }
+});
+
+hljs.highlightAll();
+
+// Scroll spy
+const links = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector('.toc-link[href="#' + id + '"]');
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -70% 0px' });
+
+document.querySelectorAll('section[id]').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
