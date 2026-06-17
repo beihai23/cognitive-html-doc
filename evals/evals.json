@@ -21,6 +21,13 @@
       "prompt": "我有一份 1500 行的产品运营手册 markdown，里面包括：onboarding 流程、用户分群、推送策略、数据指标、团队分工、未决问题、附录（术语表和变更日志）。整体转 HTML 时帮我做出层次感，让团队成员能快速查阅。\n\n（用户场景：长文档，需要折叠判定 + 系统扫描）",
       "expected_output": "1. 折叠判定正确：未决项应该默认 open + 强化引导（团队必看），术语表折叠但加强化引导（带计数），变更日志朴素折叠（真次要），onboarding/分群/推送策略等核心内容必须完全展开。\n2. 系统扫描：每章都问 '核心论点是什么'，不应只盯用户提到的单点。\n3. 多载体同步意识：提醒用户源 markdown 也要同步更新（如果改了 HTML）。\n4. 避免常见反模式：不应该把核心架构折叠让排版简洁，不应该用 Tab 隐藏关键对比。",
       "files": []
+    },
+    {
+      "id": 4,
+      "name": "api-doc-no-product-anchoring",
+      "prompt": "把这份 API 文档转成 HTML：\n\n## 用户服务 API\n\n### POST /users\n创建用户。\n\n请求体：\n- email（必填）\n- name（必填）\n- role（可选，默认 user）\n\n响应：201 Created\n\n### GET /users/{id}\n查询用户详情。\n\n响应：200 OK\n\n## 错误码\n- 400 Bad Request\n- 401 Unauthorized\n- 404 Not Found\n- 429 Too Many Requests\n\n---\n\n（用户场景：API 文档，不是产品文档。skill 应该避免产品场景锚定，把通用原则用到 API 场景：关键数字是限流值/超时；核心约束是鉴权；状态机用资源生命周期；错误码做成 hover 解释）",
+      "expected_output": "1. 不出现产品场景词作为通用原则（如不用 'KPI' '用户画像' '北极星'）。\n2. 关键数字识别：限流值（429）/ 错误码（400/401/404/429）/ HTTP 状态码，应该用关键数字卡片或状态色徽章呈现。\n3. 主动补全缺失：API 文档典型缺失——鉴权细节、限流策略、版本兼容、错误响应体结构。skill 应该指出并补充。\n4. 错误码 hover：400/401/404/429 可以做成 hover tooltip 显示含义，不破坏主线。\n5. 状态机：API 资源生命周期（draft → active → archived）可以用 stateDiagram。\n6. 多场景意识：如果举例，应该用 API 场景的例子（限流值/超时），不是产品场景的（KPI 北极星）。",
+      "files": []
     }
   ]
 }
