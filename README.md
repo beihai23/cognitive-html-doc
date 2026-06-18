@@ -1,6 +1,12 @@
 # cognitive-html-doc
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-beihai23%2Fcognitive--html--doc-blue)](https://github.com/beihai23/cognitive-html-doc)
+
 把密集、线性的 Markdown 技术/产品文档重构为**认知降维**的工业级单文件 HTML 文档。
+
+> 仓库：https://github.com/beihai23/cognitive-html-doc
+> Issue：https://github.com/beihai23/cognitive-html-doc/issues
 
 读者阅读技术文档时分三种节奏，这个 skill 让产出同时满足：
 - **3 秒抓核心**：Hero 区一句话定位 + 4 维度卡片
@@ -24,7 +30,23 @@
 
 ## 安装
 
+### 方式 0：从 GitHub clone（推荐）
+
+```bash
+git clone https://github.com/beihai23/cognitive-html-doc.git ~/.claude/skills/cognitive-html-doc
+```
+
+或 SSH：
+
+```bash
+git clone git@github.com:beihai23/cognitive-html-doc.git ~/.claude/skills/cognitive-html-doc
+```
+
+后续更新：`cd ~/.claude/skills/cognitive-html-doc && git pull`
+
 ### 方式 1：拷贝到全局 skills 目录
+
+如果你已经有 skill 文件夹：
 
 ```bash
 cp -r /path/to/cognitive-html-doc ~/.claude/skills/
