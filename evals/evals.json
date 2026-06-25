@@ -4,29 +4,85 @@
     {
       "id": 1,
       "name": "explicit-html-conversion",
-      "prompt": "把这份产品设计文档转成 HTML，要求单文件、有目录导航、关键信息突出。\n\n---\n\n# X 产品 - 产品设计文档\n\n## 1. 定位\n帮用户省钱。\n\n## 2. 用户\n2.1 画像\n- 25-35 岁\n- 一线城市\n- 月入 2-5 万\n\n2.2 为什么选这群人\n1. 已经被验证过\n2. 付费意愿强\n3. 信息获取能力弱\n\n## 3. 核心场景\n- 场景 1：用户主动搜索\n- 场景 2：系统主动推荐\n\n## 4. 商业模式\n订阅制 + 联盟佣金\n\n## 5. 北极星\n月活 ≥ 100 万\n\n---\n\n（用户场景：明确要求 markdown → HTML，应该触发 skill）",
-      "expected_output": "生成单文件 HTML，包含：Hero 区、TOC 侧边栏、4 维度或以上的卡片设计、状态色系统、5 个理由不应该被折叠（决策依据）、KPI 北极星指标用大字号呈现、Mermaid 图（场景流程或商业模式）。不应该只是 'Markdown + CSS'（仅换字体颜色），必须有空间重组。",
+      "prompt": "把这份产品设计文档转成 HTML，要求单文件、有目录导航、关键信息突出。\n\n# X 产品 - 产品设计文档\n## 1. 定位: 帮用户省钱\n## 2. 用户: 25-35岁/一线城市/月入2-5万；为什么选这群人：已被验证/付费意愿强/信息获取能力弱\n## 3. 核心场景: 用户主动搜索、系统主动推荐\n## 4. 商业模式: 订阅制 + 联盟佣金\n## 5. 北极星: 月活 ≥ 100 万",
+      "expected_output": "生成单文件 HTML，包含：Hero 区、TOC 侧边栏、4 维度或以上的卡片设计、状态色系统、5 个理由不应该被折叠（决策依据）、北极星指标用大字号呈现、Mermaid 图。不应该只是 'Markdown + CSS'，必须有空间重组。",
+      "assertions": [
+        {"text": "HTML 文件存在且 ≥ 200 行"},
+        {"text": "含侧边栏 TOC（<aside 或 <nav）"},
+        {"text": "含 Mermaid（mermaid import 或 <div class='mermaid'>）"},
+        {"text": "引入 Tailwind CSS CDN"},
+        {"text": "决策依据（'为什么选这群人'）没有被 details 折叠"},
+        {"text": "北极星指标（'月活' 或 '100 万'）用大字号（text-3xl 或 font-bold + 大字号）"},
+        {"text": "含 callout（左 4px 色条）"},
+        {"text": "有 Hero 区（4 维度卡片网格）"}
+      ],
       "files": []
     },
     {
       "id": 2,
       "name": "implicit-completeness-check",
-      "prompt": "我写了一份 API 服务的技术方案 markdown，能帮我整理成 HTML 文档吗？内容如下：\n\n## 1. 系统架构\n用 Go + Postgres + Redis，部署在 K8s。\n\n## 2. API 设计\n- POST /users：创建用户\n- GET /users/{id}：查询用户\n\n## 3. 性能\nQPS 目标 1000，P99 < 200ms。\n\n## 4. 部署\nDocker 镜像 + K8s YAML。\n\n---\n\n（用户场景：技术方案文档，skill 应该主动指出逻辑链断点并补全——错误处理、回滚、监控、鉴权等关键环节缺失）",
-      "expected_output": "生成 HTML 时，主动指出原文档缺失的关键环节（错误码体系、限流、鉴权、回滚策略、监控告警、PII 处理），并补全为独立章节。在文档开头或回答中明确告诉用户 '原文遗漏了这些核心环节，已基于通用最佳实践补充'。不应该只是把 markdown 套上 HTML 样式就交付。",
+      "prompt": "把这份 API 服务的技术方案 markdown 整理成 HTML：\n## 1. 系统架构: Go + Postgres + Redis，K8s\n## 2. API 设计: POST /users 创建用户、GET /users/{id} 查询\n## 3. 性能: QPS 目标 1000，P99 < 200ms\n## 4. 部署: Docker + K8s YAML",
+      "expected_output": "主动指出原文档缺失的关键环节（错误码体系、限流、鉴权、回滚策略、监控告警、PII 处理），并补全为独立章节。在文档开头或回答中明确告诉用户 '原文遗漏了这些核心环节'。不应该只是 markdown 套 HTML 样式。",
+      "assertions": [
+        {"text": "HTML 文件存在且 ≥ 300 行"},
+        {"text": "补全错误码章节（出现 '错误码' 或 'Error Code'）"},
+        {"text": "补全限流章节（'限流' 或 'rate limit'）"},
+        {"text": "补全鉴权章节（'鉴权' 或 'auth'）"},
+        {"text": "补全监控/告警章节（'监控' 或 '告警'）"},
+        {"text": "补全回滚章节（'回滚' 或 'rollback'）"},
+        {"text": "明确告诉用户原文有遗漏（process.md 或 HTML 开头有提示）"},
+        {"text": "原文 4 节内容（架构/API/性能/部署）保留"}
+      ],
       "files": []
     },
     {
       "id": 3,
       "name": "folding-and-systematic-scan",
-      "prompt": "我有一份 1500 行的产品运营手册 markdown，里面包括：onboarding 流程、用户分群、推送策略、数据指标、团队分工、未决问题、附录（术语表和变更日志）。整体转 HTML 时帮我做出层次感，让团队成员能快速查阅。\n\n（用户场景：长文档，需要折叠判定 + 系统扫描）",
-      "expected_output": "1. 折叠判定正确：未决项应该默认 open + 强化引导（团队必看），术语表折叠但加强化引导（带计数），变更日志朴素折叠（真次要），onboarding/分群/推送策略等核心内容必须完全展开。\n2. 系统扫描：每章都问 '核心论点是什么'，不应只盯用户提到的单点。\n3. 多载体同步意识：提醒用户源 markdown 也要同步更新（如果改了 HTML）。\n4. 避免常见反模式：不应该把核心架构折叠让排版简洁，不应该用 Tab 隐藏关键对比。",
+      "prompt": "1500 行产品运营手册转 HTML：onboarding 流程、用户分群、推送策略、数据指标、团队分工、未决问题、附录（术语表 + 变更日志）。需要层次感，团队快速查阅。生成代表性 sample 自己转 HTML。",
+      "expected_output": "折叠判定正确：未决项 default open + 强化引导；术语表强化引导（带计数）；变更日志朴素折叠；核心内容（onboarding/推送策略等）完全展开。系统扫描每章问核心论点。提醒源 markdown 同步。",
+      "assertions": [
+        {"text": "HTML 文件存在且 ≥ 500 行"},
+        {"text": "核心内容（onboarding / 推送策略）展开（不在 details 内）"},
+        {"text": "未决项 details 带 open 属性"},
+        {"text": "术语表 details 有强化引导（badge 或计数或色条）"},
+        {"text": "变更日志 details 朴素（无 badge / 无 border-l-4 色条）"},
+        {"text": "含侧边栏 TOC"},
+        {"text": "至少有 3 个 details 元素"}
+      ],
       "files": []
     },
     {
       "id": 4,
       "name": "api-doc-no-product-anchoring",
-      "prompt": "把这份 API 文档转成 HTML：\n\n## 用户服务 API\n\n### POST /users\n创建用户。\n\n请求体：\n- email（必填）\n- name（必填）\n- role（可选，默认 user）\n\n响应：201 Created\n\n### GET /users/{id}\n查询用户详情。\n\n响应：200 OK\n\n## 错误码\n- 400 Bad Request\n- 401 Unauthorized\n- 404 Not Found\n- 429 Too Many Requests\n\n---\n\n（用户场景：API 文档，不是产品文档。skill 应该避免产品场景锚定，把通用原则用到 API 场景：关键数字是限流值/超时；核心约束是鉴权；状态机用资源生命周期；错误码做成 hover 解释）",
-      "expected_output": "1. 不出现产品场景词作为通用原则（如不用 'KPI' '用户画像' '北极星'）。\n2. 关键数字识别：限流值（429）/ 错误码（400/401/404/429）/ HTTP 状态码，应该用关键数字卡片或状态色徽章呈现。\n3. 主动补全缺失：API 文档典型缺失——鉴权细节、限流策略、版本兼容、错误响应体结构。skill 应该指出并补充。\n4. 错误码 hover：400/401/404/429 可以做成 hover tooltip 显示含义，不破坏主线。\n5. 状态机：API 资源生命周期（draft → active → archived）可以用 stateDiagram。\n6. 多场景意识：如果举例，应该用 API 场景的例子（限流值/超时），不是产品场景的（KPI 北极星）。",
+      "prompt": "把这份 API 文档转成 HTML：\n## 用户服务 API\n### POST /users 创建用户（email 必填、name 必填、role 可选）→ 201 Created\n### GET /users/{id} 查询用户 → 200 OK\n## 错误码: 400/401/404/429",
+      "expected_output": "不出现产品场景词作为通用原则（KPI/用户画像/北极星/护城河）。识别关键数字（限流值/错误码/HTTP 状态码）。主动补全缺失：鉴权、限流、版本兼容、错误响应体结构。错误码 hover 显示含义。状态机资源生命周期。多场景意识。",
+      "assertions": [
+        {"text": "HTML 文件存在且 ≥ 200 行"},
+        {"text": "不含产品场景词作为通用原则（'KPI 北极星' / '用户画像' / '护城河' / 'Phase 1' 在通用章节里不出现）"},
+        {"text": "补全鉴权章节（'鉴权' 或 'auth'）"},
+        {"text": "补全限流章节（'限流' 或 'rate limit'）"},
+        {"text": "错误码 400/401/404/429 不只是纯文字列表（用 hover/callout/表格/状态色徽章）"},
+        {"text": "含 hover 实现（<abbr> 或 Alpine tooltip 或 SVG <title>）"},
+        {"text": "原文 API 字段（email/name/role）保留"}
+      ],
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "prd-two-layer-fidelity",
+      "prompt": "把这份产品 PRD markdown 转成 HTML，给产品 + 研发 + 运营一起用：\n\n# 归因分析平台 PRD\n## 1. 定位：帮电商商家把订单归因到具体 Campaign\n## 2. 目标用户：年 GMV 1000 万+ 的 DTC 品牌；选这群人因为归因复杂度高、付费意愿强\n## 3. 报告字段（v2）：campaign_id(必填)、channel(enum: meta/google/tiktok)、spend(decimal,2)、orders(int)、ROAS(computed=orders*spend)、归因模型(enum: last_click/multi_touch)、window_days(int,默认7)\n## 4. SDK 诊断：自动检测 pixel 未触发(错误码 E1001)、重复事件(E1002)、跨域失配(E1003)；每个错误含排查步骤和修复建议\n## 5. 数据保留：原始事件 90 天热存 + 1 年冷存；聚合报告永久；用户可申请 30 天内硬删\n## 6. 状态机：报告 draft→running→ready→failed；failed 可 retry 3 次后进 manual\n## 7. 验收标准：ROAS 计算 ±0.5% 误差内；报告生成 P99 < 30s；1000 万事件不超时\n## 8. 北极星：周活商家 ≥ 5000\n## 9. 商业模式：按报告数计费，免费版每月 10 份\n## 附录：术语表(12 个) + 变更日志",
+      "expected_output": "默认采用双层型（不是摘要型）。主线章节收敛到 10 个左右（Hero/架构/定位/用户/报告/SDK/数据/状态/验收/商业），但报告字段、SDK 错误码、数据保留期限、验收阈值等执行规格必须折叠保留全文，不能摘要成一句话。产出源章节映射表（源 9 章 + 附录 → HTML 各位置 + 处理方式），并附 5 行交付报告（模式/合并/删除/折叠规格数/保留率）。同层卡片网格 ≤ 6。",
+      "assertions": [
+        {"text": "HTML 文件存在且 ≥ 400 行"},
+        {"text": "默认双层型而非摘要型（回答或报告里出现 '双层' 或不出现大幅摘要声明）"},
+        {"text": "报告字段表（campaign_id/channel/spend/ROAS/归因模型/window_days）以表格或 details 保留，不被摘要删除"},
+        {"text": "SDK 错误码 E1001/E1002/E1003 保留（含排查步骤）"},
+        {"text": "数据保留期限（90 天热存 / 1 年冷存 / 30 天硬删）保留"},
+        {"text": "验收阈值（±0.5% / P99<30s / 1000 万事件）保留"},
+        {"text": "含源章节映射（出现 '源章节' 或 '映射' 或 'mapping'）"},
+        {"text": "含交付报告（出现 '保留率' 或 '合并' 或 '删除' 汇总）"},
+        {"text": "同层卡片网格连续 ≤ 6 张（无单组 7+ 卡片）"}
+      ],
       "files": []
     }
   ]
